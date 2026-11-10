@@ -51,8 +51,9 @@ function corsHeaders(request: Request, host: VaultHost): HeadersInit | null {
   const origin = request.headers.get("Origin");
   const base = {
     "Access-Control-Allow-Methods": "GET,HEAD,POST,PUT,DELETE,OPTIONS",
+    // Fork: cf-access-client-* carry a Cloudflare Access service token in front of /livesync.
     "Access-Control-Allow-Headers":
-      "authorization,content-type,accept,origin,referer,x-couch-full-commit",
+      "authorization,content-type,accept,origin,referer,x-couch-full-commit,cf-access-client-id,cf-access-client-secret",
     "Access-Control-Expose-Headers": "etag",
     // Let clients cache the preflight instead of sending OPTIONS before every _changes poll.
     "Access-Control-Max-Age": "86400",
