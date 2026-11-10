@@ -4,6 +4,11 @@
   "main": "./worker/index.ts",
   "compatibility_date": "2026-04-30",
   "compatibility_flags": ["nodejs_compat"],
+  // Fork: only reachable through the custom domain (no *.workers.dev, no preview
+  // URLs), so a later Cloudflare Access policy cannot be bypassed.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "notes.reinshagen.me", "custom_domain": true }],
   // Deploys (including Workers Builds behind the Deploy button) would otherwise
   // delete variables added in the dashboard, such as the optional ones below.
   "keep_vars": true,
