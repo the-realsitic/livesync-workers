@@ -80,6 +80,10 @@ export function vaultHost(env: Env, request?: Request): VaultHost {
 }
 
 export function semanticSearchOn(env: Env): boolean {
+  // Fork: semantic search also needs both bindings. They are removed from
+  // wrangler.jsonc, so note text never reaches Workers AI or Vectorize even
+  // if SEMANTIC_SEARCH is unset in the dashboard.
+  if (!env.AI || !env.VECTORIZE) return false;
   return !/^(off|false|0|no)$/i.test((env.SEMANTIC_SEARCH ?? "").trim());
 }
 
@@ -88,7 +92,7 @@ export function vaultBindings(env: Env): VaultBindings {
     vaultDb: env.VAULT_DB,
     bucket: env.FTS_BUCKET,
     ...(semanticSearchOn(env)
-      ? { vectorize: env.VECTORIZE, embedder: workersAiEmbedder(env.AI) }
+      ? { vectorize: env.VECTORIZE!, embedder: workersAiEmbedder(env.AI!) }
       : {}),
     vectorIsolation: "namespace",
   };

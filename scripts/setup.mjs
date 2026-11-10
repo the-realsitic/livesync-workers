@@ -5,7 +5,6 @@ import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
 const config = readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8");
-const indexName = /"index_name":\s*"([^"]+)"/.exec(config)?.[1] ?? "livesync-notes";
 const bucketName = /"bucket_name":\s*"([^"]+)"/.exec(config)?.[1] ?? "livesync-fts";
 
 function wrangler(args, { allowExisting = true } = {}) {
@@ -23,8 +22,7 @@ function wrangler(args, { allowExisting = true } = {}) {
   }
 }
 
-// Dimensions must match the embedding model (embeddinggemma-300m → 768).
-wrangler(["vectorize", "create", indexName, "--dimensions=768", "--metric=cosine"]);
+// Fork: no Vectorize index, semantic search is off.
 wrangler(["r2", "bucket", "create", bucketName]);
 
 console.log(`

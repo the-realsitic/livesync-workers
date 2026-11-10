@@ -7,8 +7,9 @@ export interface Env {
   MCP_OBJECT: DurableObjectNamespace;
   OAUTH_KV: KVNamespace;
   FTS_BUCKET: R2Bucket;
-  VECTORIZE: VectorizeIndex;
-  AI: Ai;
+  // Fork: not bound in wrangler.jsonc, so semantic search stays off.
+  VECTORIZE?: VectorizeIndex;
+  AI?: Ai;
 
   // Variables (wrangler.jsonc `vars`, or added in the dashboard).
   LIVESYNC_DATABASE?: string;
